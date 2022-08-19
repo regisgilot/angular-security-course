@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../services/auth.service";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'signup',
@@ -9,38 +9,43 @@ import {AuthService} from "../services/auth.service";
 })
 export class SignupComponent implements OnInit {
 
-    form:FormGroup;
+  form: FormGroup;
+  errors: string[] = [];
+  messagePerErrorCode = {
+    min: 'The minimum length is 10 characters',
+    uppercase: 'At least one upper chacater',
+    digits: 'at least one numeric character',
+  };
 
-    constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService) {
 
-        this.form = this.fb.group({
-            email: ['',Validators.required],
-            password: ['',Validators.required],
-            confirm: ['',Validators.required]
-        });
+    this.form = this.fb.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required],
+      confirm: ['', Validators.required]
+    });
 
+
+  }
+
+  ngOnInit() {
+
+  }
+
+
+  signUp() {
+    const val = this.form.value;
+
+    if (val.email && val.password && val.password === val.confirm) {
+      this.authService.signUp(val.email, val.password)
+        .subscribe(
+          () => console.log('User created successfully'),
+          response => this.errors = response.error.errors
+        );
 
     }
 
-    ngOnInit() {
-
-    }
-
-
-    signUp() {
-        const val = this.form.value;
-
-        if (val.email && val.password && val.password === val.confirm) {
-
-            this.authService.signUp(val.email, val.password)
-                .subscribe(
-                    () => console.log("User created successfully"),
-                    console.error
-                );
-
-        }
-
-    }
+  }
 
 }
 
