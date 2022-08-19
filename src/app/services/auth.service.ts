@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {User} from '../model/user';
 
+
 export const ANONYMOUS_USER: User = {
   id: undefined,
   email: ''
@@ -25,7 +26,7 @@ export class AuthService {
 
   signup(email: string, password: string) {
     return this.http.post<User>('/api/signup', {email, password})
-      .shareReplay()
+      // .shareReplay()
       .do(user => this.subject.next(user));
   }
 }

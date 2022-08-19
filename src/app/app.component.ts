@@ -2,10 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from './services/auth.service';
 import {Observable} from 'rxjs';
 import {User} from './model/user';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/shareReplay';
-import 'rxjs/add/operator/do';
+
 
 @Component({
   selector: 'app-root',
